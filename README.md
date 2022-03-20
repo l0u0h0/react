@@ -175,3 +175,94 @@ ReactDOM.render(
     자식 요소가 없으면 열면서 닫아야 한다.  
     -> `<p>~~~</p>`  
     -> `<br />`
+### Props, State
+- Props
+    - 컴포넌트 외부에서 컴포넌트에게 주는 데이터
+- State
+    - 컴포넌트 내부에서 변경할 수 있는 데이터  
+<br />  
+
+- 둘 다 변경이 발생하면 랜더가 다시 일어날 수 있음
+- Render func
+    - 컴포넌트를 그리는 방법을 기술한 함수
+    - Props, State를 바탕으로 컴포넌트를 그림
+    - 변경되면 컴포넌트를 다시 그림
+- props 값을 default로 지정해줄 때
+```js
+function Component(props) {
+  return (
+    <div>
+      <h1>{props.message} 이것은 함수로 만든 컴포넌트 입니다. </h1>
+    </div>
+  );
+}
+Component.defaultProps = {
+  message: '기본값',
+};
+class ClassComponent extends React.Component {
+  render() {
+    return (
+      <div>
+        <h1>{this.props.message} 이것은 클래스로 만든 컴포넌트 입니다. </h1>
+      </div>
+    );
+  }
+  static defaultProps = {
+    message: '기본값',
+  };
+}
+// ClassComponent.defaultProps = {
+//   message: '기본값',
+// }
+ReactDOM.render(
+  <Component />,
+  document.querySelector("#main")
+);
+ReactDOM.render(
+  <ClassComponent />,
+  document.querySelector("#sub")
+);
+```
+- 값이 지정되어있다면 default 값은 무시
+- state는 객체 형태로만 제공
+```js
+class ClassComponent extends React.Component {
+  // 방법 1
+  // state = {
+  //   count: 0,
+  // };
+  // 방법 2
+  constructor(props) {
+    super(props);
+    this.state = {count: 0};
+  }
+  render() {
+    return (
+      <div>
+        <h1>{this.props.message} 이것은 클래스로 만든 컴포넌트 입니다. </h1>
+        <p>
+          {this.state.count}
+        </p>
+      </div>
+    );
+  }
+  componentDidMount() {
+    setTimeout(() => {
+      // 방법 1
+      // this.setState({
+      //   count: this.state.count + 1,
+      // });
+      // 방법 2
+      this.setState((previousState) => {
+        const newState = {
+          count: previousState.count + 1
+        }
+        return newState;
+      });
+    }, 1000);
+  }
+  static defaultProps = {
+    message: '기본값',
+  };
+}
+```
