@@ -176,18 +176,18 @@ ReactDOM.render(
     -> `<p>~~~</p>`  
     -> `<br />`
 ### Props, State
-- Props
+- `Props`
     - 컴포넌트 외부에서 컴포넌트에게 주는 데이터
-- State
+- `State`
     - 컴포넌트 내부에서 변경할 수 있는 데이터  
 <br />  
 
 - 둘 다 변경이 발생하면 랜더가 다시 일어날 수 있음
-- Render func
+- `Render func`
     - 컴포넌트를 그리는 방법을 기술한 함수
-    - Props, State를 바탕으로 컴포넌트를 그림
+    - `Props`, `State`를 바탕으로 컴포넌트를 그림
     - 변경되면 컴포넌트를 다시 그림
-- props 값을 default로 지정해줄 때
+- `props` 값을 `default`로 지정해줄 때
 ```js
 function Component(props) {
   return (
@@ -223,8 +223,8 @@ ReactDOM.render(
   document.querySelector("#sub")
 );
 ```
-- 값이 지정되어있다면 default 값은 무시
-- state는 객체 형태로만 제공
+- 값이 지정되어있다면 `default` 값은 무시
+- `state`는 객체 형태로만 제공
 ```js
 class ClassComponent extends React.Component {
   // 방법 1
@@ -265,4 +265,90 @@ class ClassComponent extends React.Component {
     message: '기본값',
   };
 }
+```
+---
+### Event Handling
+- `props`에 들어가게 될 `onclick` 이벤트에 대한 처리
+- `camelCase` 로만 사용 가능
+    - `onClick`, `onMouseEnter`
+- 이벤트에 연결된 js 코드는 함수
+    - `이벤트={함수}`
+- 실제 `DOM` 요소들에만 사용 가능
+    - 리액트 컴포넌트에 사용하면 그냥 `props`로 전달
+- func compo
+```js
+function Component() {
+  return (
+    <div>
+      <button 
+        onClick={() => {
+          console.log("clicked");
+        }}
+      >
+        click
+      </button>
+    </div>
+  );
+}
+ReactDOM.render(
+  <Component />, document.querySelector("#main")
+);
+```
+- class compo
+```js
+class Component extends React.Component {
+  state = {
+    count: 0,
+  };
+  render() {
+    return (
+      <div>
+        <p>{this.state.count}</p>
+        <button
+          onClick={() => {
+            console.log("clicked");
+            this.setState((state) => ({
+              ...state,
+              count: state.count + 1,
+            }));
+          }}
+        >
+          click
+        </button>
+      </div>
+    );
+  }
+}
+ReactDOM.render(
+  <Component />, document.querySelector("#main")
+);
+```
+- mouseenter
+```js
+class Component extends React.Component {
+  state = {
+    count: 0,
+  };
+  render() {
+    return (
+      <div>
+        <p>{this.state.count}</p>
+        <button
+          onMouseEnter={() => {
+            console.log("clicked");
+            this.setState((state) => ({
+              ...state,
+              count: state.count + 1,
+            }));
+          }}
+        >
+          click
+        </button>
+      </div>
+    );
+  }
+}
+ReactDOM.render(
+  <Component />, document.querySelector("#main")
+);
 ```

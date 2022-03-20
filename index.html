@@ -37,65 +37,57 @@
     );
   </script>
   <script type="text/babel">
-    // function Component(props) {
+    // function Component() {
     //   return (
     //     <div>
-    //       <h1>{props.message} 이것은 함수로 만든 컴포넌트 입니다. </h1>
+    //       <button 
+    //         onClick={() => {
+    //           console.log("clicked");
+    //         }}
+    //       >
+    //         click
+    //       </button>
     //     </div>
     //   );
     // }
-    // Component.defaultProps = {
-    //   message: '기본값',
-    // };
-    class ClassComponent extends React.Component {
-      // 방법 1
-      // state = {
-      //   count: 0,
-      // };
-      // 방법 2
-      constructor(props) {
-        super(props);
-        this.state = {count: 0};
-      }
+
+    class Component extends React.Component {
+      state = {
+        count: 0,
+      };
+      // constructor(props) {
+      //   super(props);
+      //   this.click = this.click.bind(this);
+      // }
       render() {
         return (
           <div>
-            <h1>{this.props.message} 이것은 클래스로 만든 컴포넌트 입니다. </h1>
-            <p>
-              {this.state.count}
-            </p>
+            <p>{this.state.count}</p>
+            <button
+              onClick={this.click}
+            >
+              click
+            </button>
           </div>
         );
       }
-      componentDidMount() {
-        setTimeout(() => {
-          // 방법 1
-          // this.setState({
-          //   count: this.state.count + 1,
-          // });
-          // 방법 2
-          this.setState((previousState) => {
-            const newState = {
-              count: previousState.count + 1
-            }
-            return newState;
-          });
-        }, 1000);
+      // click() {
+      //   console.log("clicked");
+      //   this.setState((state) => ({
+      //     ...state,
+      //     count: state.count + 1,
+      //   }));
+      // }
+      click = () => {
+        console.log("clicked");
+        this.setState((state) => ({
+          ...state,
+          count: state.count + 1,
+        }));
       }
-      static defaultProps = {
-        message: '기본값',
-      };
     }
-    // ClassComponent.defaultProps = {
-    //   message: '기본값',
-    // }
-    // ReactDOM.render(
-    //   <Component />,
-    //   document.querySelector("#main")
-    // );
     ReactDOM.render(
-      <ClassComponent />,
-      document.querySelector("#sub")
+      <Component />, document.querySelector("#main")
     );
   </script>
 </body>
