@@ -56,6 +56,7 @@ React.createElement(
 ReactDOM.render(
   React.createElement('div', null, "Hello World")
 );
+// <div>Hello World</div>
 ```
 - 리액트 컴포넌트 type
 ```js
@@ -69,3 +70,87 @@ class ClassComponent extends React.Component {
 ReactDOM.render(
   React.createElement(ClassComponent, null, null)
 );
+// <div>Hello World</div>
+```
+- React.Fragment
+```js
+<div id="main">
+</div>
+ReactDOM.render(
+  React.createElement(
+    React.Fragment,
+    null,
+    `Hello World`,
+    `Hello World`,
+    `Hello World`
+  ),
+  document.querySelector("#main")
+)
+// <div id="main>
+//  Hello World
+//  Hello World
+//  Hello World
+// </div>
+```
+`React.Fragment`를 사용하면 원하는 부분 안에  
+배열과 같이 내용을 넣을 수 있음
+- 복잡한 리액트 엘리먼트 모임
+```html
+<div>
+  <div>
+    <h1>
+      주제
+    </h1>
+    <ul>
+      <li>
+        Hello
+      </li>
+      <li>
+        World
+      </li>
+    </ul>
+  </div>
+</div>
+```
+```js
+ReactDOM.render(
+  React.createElement(
+    "div", 
+    null, 
+    React.createElement(
+      "div", 
+      null, 
+      React.createElement("h1", null, "주제"),
+      React.createElement(
+        "ul", 
+        null, 
+        React.createElement("li", null, "Hello"), React.createElement("li", null, "World")
+      )
+    )
+  )
+);
+```
+### jsx
+- `Babel`
+    - jsx문법을 이해하기 위해 사용
+    - jsx 문법으로 작성된 코드를 순수한 js로 컴파일
+    - [Babel](www.babeljs.io)
+```js
+ReactDOM.render(
+<div>
+  <div>
+    <h1>
+      주제
+    </h1>
+    <ul>
+      <li>
+        Hello
+      </li>
+      <li>
+        World
+      </li>
+    </ul>
+  </div>
+</div>
+);
+```
