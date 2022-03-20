@@ -37,58 +37,37 @@
     );
   </script>
   <script type="text/babel">
-    // function Component() {
-    //   return (
-    //     <div>
-    //       <button 
-    //         onClick={() => {
-    //           console.log("clicked");
-    //         }}
-    //       >
-    //         click
-    //       </button>
-    //     </div>
-    //   );
-    // }
-
-    class Component extends React.Component {
+    class App extends React.Component {
       state = {
-        count: 0,
+        age: 25,
       };
-      // constructor(props) {
-      //   super(props);
-      //   this.click = this.click.bind(this);
-      // }
+      constructor(props) {
+        super(props);
+        console.log('constructor', props);
+      }
       render() {
+        console.log('render');
         return (
           <div>
-            <p>{this.state.count}</p>
-            <button
-              onClick={this.click}
-            >
-              click
-            </button>
+            <h2>
+              Hello {this.props.name} - {this.state.age}
+            </h2>  
           </div>
         );
       }
-      // click() {
-      //   console.log("clicked");
-      //   this.setState((state) => ({
-      //     ...state,
-      //     count: state.count + 1,
-      //   }));
-      // }
-      click = () => {
-        console.log("clicked");
-        this.setState((state) => ({
-          ...state,
-          count: state.count + 1,
-        }));
+      componentWillMount() {
+        console.log("componentWillMount");
+      }
+      componentDidMount() {
+        console.log("componentDidMount");
+
+        setInterval(() => {
+          this.setState(state => ({...state, age: state.age + 1}));
+        }, 1000);
       }
     }
-    ReactDOM.render(
-      <Component />, document.querySelector("#main")
-    );
+
+    ReactDOM.render(<App name="uhan"/>, document.querySelector("#main"));
   </script>
 </body>
 

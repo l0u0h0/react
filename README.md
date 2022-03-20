@@ -352,3 +352,49 @@ ReactDOM.render(
   <Component />, document.querySelector("#main")
 );
 ```
+---
+### Component Lifecycle
+- 리액트 컴포넌트는 탄생부터 죽음까지  
+여러 지점에서 개발자가 작업이 가능하도록  
+메서드를 오버라이딩 할 수 있게 해준다.
+- `componentWillMount`
+    - `render`가 되기 전
+- `componentDidMount`
+    - `render`가 된 후
+```js
+class App extends React.Component {
+  state = {
+    age: 25,
+  };
+  constructor(props) {
+    super(props);
+    console.log('constructor', props);
+  }
+  render() {
+    console.log('render');
+    return (
+      <div>
+        <h2>
+          Hello {this.props.name} - {this.state.age}
+        </h2>  
+      </div>
+    );
+  }
+  componentWillMount() {
+    console.log("componentWillMount");
+  }
+  componentDidMount() {
+    console.log("componentDidMount");
+  }
+}
+
+ReactDOM.render(<App name="uhan"/>, document.querySelector("#main"));
+```
+- console.log =>
+```
+- constructor
+  {name: 'uhan'}
+- componentWillMount
+- render
+- componentDidMount
+```
