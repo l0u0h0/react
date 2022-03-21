@@ -569,3 +569,6 @@ npx create-react-app my-app
         - 자유롭게 모든 설정을 변경할 수 있음
         - 관리되고 있는 곳에서 벗어나게 되면 관리하기에 어려움이 있기에 신중하게 결정
         - `react-scripts eject`
+- `webpack`
+    - `babel-loader`, `css-loader` 등 최종 배포용 파일에 필요한  
+    파일 확장자에 맞는 `loader` 에게 나누어주는 역할
