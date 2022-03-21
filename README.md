@@ -353,7 +353,7 @@ ReactDOM.render(
 );
 ```
 ---
-### Component Lifecycle
+### Component Lifecycle < 16.3
 - 리액트 컴포넌트는 탄생부터 죽음까지  
 여러 지점에서 개발자가 작업이 가능하도록  
 메서드를 오버라이딩 할 수 있게 해준다.
@@ -458,3 +458,68 @@ componentWillUnmount() {
 }
 ```
 - 컴포넌트가 사라지게 되면 interval 이라는 setInterval 함수가 사라지게 됨.
+---
+### Component Lifecycle v16.3
+- `constructor`
+- `componentWillMount` => `getDerivedStateFromProps`
+- `render`
+- `componentDidMount`
+- ==========================================
+- `componentWillReceiveProps` => `getDerivedStateFromProps`
+- `shouldComponentUpdate`
+- `render`
+- `componentWillUpdate` => `getSnapshotBeforeUpdate`
+- (`dom` 에 적용되기 직전)
+- `componentDidUpdate`
+- ==========================================
+- `componentWillUnmount`
+### getDerivedStateFromProps
+- `static` 을 사용해 선언
+- `return` 이 있어야하며 없을 경우엔 `null`, 새로운 `state`를 설정 가능
+```js
+static getDerivedStateFromProps(nextProps, prevState) {
+  console.log('getDerivedStateFromProps', nextProps, prevState);
+  // 새로운 state를 설정 가능
+  return {
+    age: 201,
+  };
+}
+```
+### snapshot
+```js
+let i = 0;
+
+class App extends React.Component {
+  state = {list: []};
+  render() {
+    return (
+      <div id="list" style={{height: 100, overflow: "scroll"}}>
+        {this.state.list.map(i => {
+          return <div>{i}</div>;
+        })}
+      </div>
+    );
+  }
+  componentDidMount() {
+    setInterval(() => {
+      this.setState(state => ({
+        list: [...state.list, i++],
+      }));
+    }, 1000);
+  }
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    if (prevState.list.length == this.state.list.length) returnull;
+    const list = document.querySelector("#list");
+    return list.scrollHeight - list.scrollTop;
+  }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log(snapshot);
+    if (snapshot == null) return;
+    const list = document.querySelector("#list");
+    list.scrollTop = list.scrollHeight - snapshot;
+  }
+}
+ReactDOM.render(<App name="uhan"/>, document.querySelector("#main"));
+```
+### Component 에러 캐치
+- componentDidCatch

@@ -37,59 +37,95 @@
     );
   </script>
   <script type="text/babel">
+    // class App extends React.Component {
+    //   state = {
+    //     age: 25,
+    //   };
+    //   interval = null;
+    //   constructor(props) {
+    //     super(props);
+    //     console.log('constructor', props);
+    //   }
+    //   render() {
+    //     console.log('render');
+    //     return (
+    //       <div>
+    //         <h2>
+    //           Hello {this.props.name} - {this.state.age}
+    //         </h2>  
+    //       </div>
+    //     );
+    //   }
+    //   static getDerivedStateFromProps(nextProps, prevState) {
+    //     console.log('getDerivedStateFromProps', nextProps, prevState);
+    //     // 새로운 state를 설정 가능
+    //     return {
+    //       age: 201,
+    //     };
+    //   }
+    //   componentDidMount() {
+    //     console.log("componentDidMount");
+
+    //     this.interval = setInterval(() => {
+    //       this.setState(state => ({...state, age: state.age + 1}));
+    //     }, 1000);
+    //   }
+    //   // nextProps = 변경될 props
+    //   // componentWillReceiveProps(nextProps) {
+    //   //   console.log('componentWillReceiveProps', nextProps);
+    //   // }
+    //   // nextState = 변경될 state
+    //   shouldComponentUpdate(nextProps, nextState) {
+    //     console.log('shouldComponentUpdate', nextProps, nextState);
+    //     // true라면 바로 랜더할 준비
+    //     // false라면 props, state가 변경된다해도 바로 랜더하지 않음
+    //     return true;
+    //   }
+    //   // componentWillUpdate(nextProps, nextState) {
+    //   //   console.log('componentWillUpdate', nextProps, nextState);
+    //   // }
+    //   // 랜더가 된 후
+    //   componentDidUpdate(prevProps, prevState) {
+    //     console.log('componentDidUpdate', prevProps, prevState);
+    //   }
+    //   componentWillUnmount() {
+    //     clearInterval(this.interval);
+    //     console.log('componentWillUnmount');
+    //   }
+    // }
+
+    let i = 0;
+
     class App extends React.Component {
-      state = {
-        age: 25,
-      };
-      interval = null;
-      constructor(props) {
-        super(props);
-        console.log('constructor', props);
-      }
+      state = {list: []};
       render() {
-        console.log('render');
         return (
-          <div>
-            <h2>
-              Hello {this.props.name} - {this.state.age}
-            </h2>  
+          <div id="list" style={{height: 100, overflow: "scroll"}}>
+            {this.state.list.map(i => {
+              return <div>{i}</div>;
+            })}
           </div>
         );
       }
-      componentWillMount() {
-        console.log("componentWillMount");
-      }
       componentDidMount() {
-        console.log("componentDidMount");
-
-        this.interval = setInterval(() => {
-          this.setState(state => ({...state, age: state.age + 1}));
+        setInterval(() => {
+          this.setState(state => ({
+            list: [...state.list, i++],
+          }));
         }, 1000);
       }
-      // nextProps = 변경될 props
-      componentWillReceiveProps(nextProps) {
-        console.log('componentWillReceiveProps', nextProps);
+      getSnapshotBeforeUpdate(prevProps, prevState) {
+        if (prevState.list.length == this.state.list.length) return null;
+        const list = document.querySelector("#list");
+        return list.scrollHeight - list.scrollTop;
       }
-      // nextState = 변경될 state
-      shouldComponentUpdate(nextProps, nextState) {
-        console.log('shouldComponentUpdate', nextProps, nextState);
-        // true라면 바로 랜더할 준비
-        // false라면 props, state가 변경된다해도 바로 랜더하지 않음
-        return true;
-      }
-      componentWillUpdate(nextProps, nextState) {
-        console.log('componentWillUpdate', nextProps, nextState);
-      }
-      // 랜더가 된 후
-      componentDidUpdate(prevProps, prevState) {
-        console.log('componentDidUpdate', prevProps, prevState);
-      }
-      componentWillUnmount() {
-        clearInterval(this.interval);
-        console.log('componentWillUnmount');
+      componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log(snapshot);
+        if (snapshot == null) return;
+        const list = document.querySelector("#list");
+        list.scrollTop = list.scrollHeight - snapshot;
       }
     }
-
     ReactDOM.render(<App name="uhan"/>, document.querySelector("#main"));
   </script>
 </body>
