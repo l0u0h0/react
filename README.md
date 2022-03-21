@@ -398,3 +398,56 @@ ReactDOM.render(<App name="uhan"/>, document.querySelector("#main"));
 - render
 - componentDidMount
 ```
+- Component props, state가 변경됐을 때
+- `props`가 변경되면
+- `componentWillReceiveProps`
+- `shouldComponentUpdate`
+- `componentWillUpdate`
+- `render`
+- `componentDidUpdate`
+- `state`가 변경되면 `componentWillReceiveProps`는 제외하고 실행
+```js
+// nextProps = 변경될 props
+componentWillReceiveProps(nextProps) {
+  console.log('componentWillReceiveProps', nextProps);
+}
+// nextState = 변경될 state
+shouldComponentUpdate(nextProps, nextState) {
+  console.log('shouldComponentUpdate', nextProps, nextState);
+  // true라면 바로 랜더할 준비
+  // false라면 props, state가 변경된다해도 바로 랜더하지 않음
+  return true;
+}
+componentWillUpdate(nextProps, nextState) {
+  console.log('componentWillUpdate', nextProps, nextState);
+}
+// 랜더가 된 후
+componentDidUpdate(prevProps, prevState) {
+  console.log('componentDidUpdate', prevProps, prevState);
+}
+```
+- `true`라면 `componentDidUpdate`까지 출력
+- `false`라면 `shouldComponentUpdate`까지 출력
+- `componentWillReceiveProps`
+    - `props`를 새로 지정했을 때 바로 호출
+    - 여기는 `state`의 변경에 반응하지 않는다.
+    - `props` 값에 따라 `state`를 변경해야한다면
+        - `setState`를 이용해 변경
+        - 그러면 다음 이벤트로 각각 가는 것이 아니라  
+        한번에 변경
+- `shouldComponentUpdate`
+    - `props`만 변경되어도 실행
+    - `state`만 변경되어도 실행
+    - `props` & `state` 둘 다 변경되어도 실행
+    - `newProps`와 `newState` 를 인자로 해서 호출
+    - `return type` 이 `boolean` 이어야한다.
+        - `true` 면 `render`
+        - `false` 면 `render` 가 호출되지 않습니다.
+        - 이 함수를 구현하지 않으면, `default`는 `true`
+- `componentWillUpdate`
+    - 컴포넌트가 재 랜더링 되기 직전에 불린다.
+    - 여기선 `setState` 같은 것을 쓰면 안된다.
+- `componentDidUpdate`
+    - 컴포넌트가 재 랜더링을 마치면 부른다.
+### Component 언마운트
+- componentWillUnmount

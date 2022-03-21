@@ -41,6 +41,7 @@
       state = {
         age: 25,
       };
+      interval = null;
       constructor(props) {
         super(props);
         console.log('constructor', props);
@@ -61,9 +62,31 @@
       componentDidMount() {
         console.log("componentDidMount");
 
-        setInterval(() => {
+        this.interval = setInterval(() => {
           this.setState(state => ({...state, age: state.age + 1}));
         }, 1000);
+      }
+      // nextProps = 변경될 props
+      componentWillReceiveProps(nextProps) {
+        console.log('componentWillReceiveProps', nextProps);
+      }
+      // nextState = 변경될 state
+      shouldComponentUpdate(nextProps, nextState) {
+        console.log('shouldComponentUpdate', nextProps, nextState);
+        // true라면 바로 랜더할 준비
+        // false라면 props, state가 변경된다해도 바로 랜더하지 않음
+        return true;
+      }
+      componentWillUpdate(nextProps, nextState) {
+        console.log('componentWillUpdate', nextProps, nextState);
+      }
+      // 랜더가 된 후
+      componentDidUpdate(prevProps, prevState) {
+        console.log('componentDidUpdate', prevProps, prevState);
+      }
+      componentWillUnmount() {
+        clearInterval(this.interval);
+        console.log('componentWillUnmount');
       }
     }
 
