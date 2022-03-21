@@ -523,3 +523,21 @@ ReactDOM.render(<App name="uhan"/>, document.querySelector("#main"));
 ```
 ### Component 에러 캐치
 - componentDidCatch
+- 에러가 났을 때 캐치
+- 단점 > 자신에게 에러가 났을 때 캐치하지 못함
+```js
+class App extends React.Component {
+  state = {
+    hasError: false,
+  };
+  render() {
+    if (this.state.hasError) {
+      return <div>예상치 못한 에러가 발생</div>;
+    }
+    return (<WebService />);
+  }
+  componentDidCatch(error, info) {
+    this.setState({ hasError: true });
+  }
+}
+```
