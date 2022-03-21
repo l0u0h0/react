@@ -541,3 +541,31 @@ class App extends React.Component {
   }
 }
 ```
+---
+### Create React App
+- Facebook Open Source
+```cli
+npx create-react-app my-app
+```
+- `my-app`이라는 디렉토리로 리액트 앱이 설치됨.
+- `package.json` - `dependencies`
+    - `react-scripts` 라이브러리의 버전이 `create-react-app`의 버전과 같다.
+    - @가 붙은 라이브러리는 테스팅을 위한 라이브러리
+    - `web-vitals` = google에서 사이트 개선을 위해 측정하는 라이브러리
+- `scripts`
+    - `start` 개발모드로 로컬에서 실행하는 명령어
+        - `react-script start`
+        - Starting the development server
+    - `build` production모드로 실제 배포를 위한 파일을 만드는 명령어
+        - `serve` 명령어를 이용해 `build` 디렉토리를 실행
+        - 개발모드와의 차이는 코드를 가독성 없게 만들어 최대한 활용적으로 실행
+        - `react-scripts build`
+        - Creating an optimized production build
+    - `test` 문제가 있는 지 여러 단축어를 통해 테스트를 실행할 수 있는 모드로 변환
+        - `react-scripts test`
+        - Jest를 통해 test code를 실행
+    - `eject` 리액트 앱의 설정을 변경하기 위해 사용
+        - 한번 실행하면 다시 되돌릴 수 없음
+        - 자유롭게 모든 설정을 변경할 수 있음
+        - 관리되고 있는 곳에서 벗어나게 되면 관리하기에 어려움이 있기에 신중하게 결정
+        - `react-scripts eject`
