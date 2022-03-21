@@ -638,3 +638,20 @@ module.exports = {
 `"prepare": "husky install"` 적어준 뒤  
 `npx husky add .husky/pre-commit "npm test"`
 - 커밋이 되기 전 점검할 수 있는 기능을 넣을 수 있다.
+### lint-staged
+- Run linters on git staged files
+- `eslint`와 `husky`를 연결해 커밋 전 파일을 점검할 수 있도록
+- `scripts`에 `prepare` 설정을 적어준 뒤
+- `npx husky add .husky/pre-commit "lint-staged"` 명령어 실행
+- 라이브러리를 설치해야함 `npm i lint-staged -D`
+- 이제 커밋을 진행할 때 `lint-staged` 라는 명령어가 실행됨
+- 해당 명령어에 대한 설정은 `package.json` 에서 추가 가능
+```json
+  "lint-staged": {
+    "**/*.js": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ]
+  },
+```
