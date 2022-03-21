@@ -627,3 +627,14 @@ module.exports = {
 - `eslint-config-prettier`를 설정해줘야함
 - `create-react-app` 설정 중 `eslint`의 `extends` 부분에
 - `prettier` 추가
+---
+### husky
+- `git hooks`을 쉽게 사용하게 해주는 툴
+- 깃으로 인해 생기는 이벤트를 쉽게 사용하게 해주는 툴
+- [Husky](https://github.com/typicode/husky)
+- 깃이 설정된 후에 설치해야 오류를 방지할 수 있음
+- `npx husky install` 하면 githook이 생성됨
+- `package.json` - `scripts`에  
+`"prepare": "husky install"` 적어준 뒤  
+`npx husky add .husky/pre-commit "npm test"`
+- 커밋이 되기 전 점검할 수 있는 기능을 넣을 수 있다.
