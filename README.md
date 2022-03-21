@@ -451,3 +451,10 @@ componentDidUpdate(prevProps, prevState) {
     - 컴포넌트가 재 랜더링을 마치면 부른다.
 ### Component 언마운트
 - componentWillUnmount
+```js
+componentWillUnmount() {
+  clearInterval(this.interval);
+  console.log('componentWillUnmount');
+}
+```
+- 컴포넌트가 사라지게 되면 interval 이라는 setInterval 함수가 사라지게 됨.
