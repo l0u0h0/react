@@ -572,3 +572,36 @@ npx create-react-app my-app
 - `webpack`
     - `babel-loader`, `css-loader` 등 최종 배포용 파일에 필요한  
     파일 확장자에 맞는 `loader` 에게 나누어주는 역할
+### ESLint
+[ESLint](https://eslint.org)
+- 보통 lint라 부름
+- 여러 가지 코딩 스타일을 맞추기 위해 사용
+- 모든 js 프로젝트에서 사용
+`eslint-test` 디렉토리에서 테스트
+- `npx eslint --init` 후 사용 환경에 대한 설정 진행
+- `.eslintrc.js` 파일 생성됨
+- 내용
+```js
+module.exports = {
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+        "ecmaVersion": "latest"
+    },
+    "rules": {
+      // 프로젝트 별 규칙 생성
+    }
+}
+```
+- `rules` - `semi`
+    - 세미 콜론에 대한 규칙,
+    - `semi: ["error", "always"],`
+- 검사해볼 땐 `npx eslint 파일명`으로 사용
+- `extension`에도 존재
+- 뒤에 `--fix` 붙이면 자동으로 고쳐줌
+- `create-react-app` 에서는 `package.json` 파일 내에  
+`eslintConfig` 의 이름으로 존재
+- 이 곳에 `.eslintrc.js` 파일에서 하듯 규칙 추가 가능
