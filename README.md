@@ -572,6 +572,7 @@ npx create-react-app my-app
 - `webpack`
     - `babel-loader`, `css-loader` 등 최종 배포용 파일에 필요한  
     파일 확장자에 맞는 `loader` 에게 나누어주는 역할
+---
 ### ESLint
 [ESLint](https://eslint.org)
 - 보통 lint라 부름
@@ -605,3 +606,24 @@ module.exports = {
 - `create-react-app` 에서는 `package.json` 파일 내에  
 `eslintConfig` 의 이름으로 존재
 - 이 곳에 `.eslintrc.js` 파일에서 하듯 규칙 추가 가능
+---
+### Prettier
+- `An opinionated code formatter`
+- [prettier](https://prettier.io)
+- 포맷팅을 위한 라이브러리
+- 관리를 원하는 파일을 `npx prettier 파일명`으로 실행
+    - 포맷팅을 진행한 결과를 콘솔창에 출력
+- 파일의 변경을, 포맷팅을 원하면 뒤에 `--write` 명령어 덧붙이기
+    - 해당 파일이 포맷팅 완료된 파일로 변환됨
+- 매번 이렇게 하기 힘들기에 확장으로 설정을 한 후
+- 설정에서 `default fomatter`를 `prettier`로 설정한 후
+- `format on save` 설정을 체크하면 저장하게 될 때마다 자동으로 고쳐짐
+- 커스터마이징 하고 싶은 경우 루트 디렉토리에 `.prettierrc.json` 생성
+- 그 후 해당 파일 내에 여러 설정을 추가하면 됨.
+    - 자세한 설정 값은 홈페이지에 기술되어있음
+- 이 라이브러리가 지향하는 바는 괄호의 폭을 제한하는 편
+- `jsx` 파일을 다루다 보면 괄호가 복잡해지는데 쉽게 작성할 수 있음.
+- `prettier`와 `eslint`가 충돌이 일어날 수 있기에
+- `eslint-config-prettier`를 설정해줘야함
+- `create-react-app` 설정 중 `eslint`의 `extends` 부분에
+- `prettier` 추가
