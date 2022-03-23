@@ -739,3 +739,22 @@ module.exports = {
   `<Route path="/*" element={<Home />}>`  
   이런 식으로 `exact`는 경로 뒤에 \* 표시로 대체 되었고
   컴포넌트를 불러와 사용하던 방식이 그냥 바로 엘리먼트를 불러와 사용하는 방식으로 바뀜.
+- `useParams()`
+  - `match.params`로 사용하던 구문을 바로 사용 가능
+  - `object` 객체로 반환해주기에 파라미터의 값을  
+    `useParams().id` 와 같이 주어 사용
+- 또한 동적인 라우팅을 위해선
+
+```js
+<BrowserRouter>
+  <Routes>
+    <Route path="/" element={<Home />} />
+    <Route path="Profile/" element={<Profile />}>
+      <Route path=":id" element={<Profile />} />
+    </Route>
+    <Route path="/About" element={<About />} />
+  </Routes>
+</BrowserRouter>
+```
+
+다음과 같이 `Route`를 만들어줘야한다.
