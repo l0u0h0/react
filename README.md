@@ -743,7 +743,7 @@ module.exports = {
   - `match.params`로 사용하던 구문을 바로 사용 가능
   - `object` 객체로 반환해주기에 파라미터의 값을  
     `useParams().id` 와 같이 주어 사용
-- 또한 동적인 라우팅을 위해선
+- 또한 url의 동적인 라우팅을 위해선
 
 ```js
 <BrowserRouter>
