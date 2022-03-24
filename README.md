@@ -758,3 +758,42 @@ module.exports = {
 ```
 
 다음과 같이 `Route`를 만들어줘야한다.
+
+- `쿼리스트링`
+- 기존 5버전에서 사용하던 props를 받아와 location에서 search를 확인하던 방식에서  
+  6버전 이상에서는 useLocation();을 사용
+- `URLSearchParams()`
+  - `new`를 사용해 써야하며 변수에 지정해주어 `get()`과 같은 함수를 사용해 쓸 수 있다.
+
+```js
+export default function About() {
+  console.log(useLocation());
+  const { search } = useLocation();
+  console.log(search);
+  const obj = new URLSearchParams(search);
+  console.log(obj);
+  console.log(obj.get("name"));
+  return <div>About Page</div>;
+}
+```
+
+- 단점
+  - 모든 메서드를 기억하고 사용해야한다.
+  - 브라우저의 내장 객체이기때문에 브라우저에 따라서 지원하지 않는 경우도 있다.
+- `query-string` 단점 극복을 위한 라이브러리
+- `npm i query-string -s`
+
+```js
+import { useLocation } from "react-router-dom";
+import queryString from "query-string";
+
+export default function About() {
+  console.log(useLocation());
+  const { search } = useLocation();
+  const query = queryString.parse(search);
+  console.log(query);
+  return <div>About Page</div>;
+}
+```
+
+- 이와 같이 사용할 수 있다. 객체의 형식으로 출력되기에 키 값으로 사용할 수 있다.
