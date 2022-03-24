@@ -815,6 +815,7 @@ export default function About() {
   에러 페이지에 `path`를 입력하지 않은 채 사용했지만,
 - 변경된 사항에서는 `exact` 구문이 없어졌기에 에러 페이지의 `path`에  
   `/*`를 넣어주어 맞지 않는 라우터일 때 출력되도록 작성할 수 있다.
+- `exact`가 사라지고 기본 값으로 `exact` 가 적용이 되었다.
 
 ### JSX 링크로 라우팅 이동하기
 
@@ -827,3 +828,10 @@ export default function About() {
   이동하고자 하는 뷰에게 이동할 수 있게 하는 기능을 제공
 - 개발자도구로 보면 링크 컴포넌트로 만들어진 공간이 a태그로 html로  
   작성된 것을 알 수 있다.
+
+### Navigation Link
+
+- `import { NavLink } from 'react-router-dom'`
+- activeClassName, activeStyle 처럼 active 상태에 대한 스타일 지정 가능
+- Route의 path 처럼 동작
+- 인데, v.6에서는 activeClassName, activeStyle 사라짐
