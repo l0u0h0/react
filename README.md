@@ -835,3 +835,44 @@ export default function About() {
 - activeClassName, activeStyle 처럼 active 상태에 대한 스타일 지정 가능
 - Route의 path 처럼 동작
 - 인데, v.6에서는 activeClassName, activeStyle 사라짐
+- `NavLink` 내에 `isActive` props도 없어졌기에
+
+```js
+const search = useLocation().search;
+const func1 = () => {
+  if (search === "") {
+    style = style2;
+    return console.log("hihi");
+  } else if (search === "?name=uhan") {
+    style1 = style2;
+    return console.log("name=uhan");
+  } else {
+    style = style1;
+  }
+};
+let style = ({ isActive }) => ({
+  color: isActive ? "blue" : "blue",
+});
+let style1 = ({ isActive }) => ({
+  color: isActive ? "blue" : "blue",
+});
+const style2 = ({ isActive }) => ({
+  color: isActive ? "green" : "blue",
+});
+func1();
+```
+
+- 이렇게 해서 `to` 경로에 아이디가 붙은 경우를 처리
+
+```js
+<li>
+  <NavLink to="About" style={style}>
+    About
+  </NavLink>
+</li>
+<li>
+  <NavLink to="About?name=uhan" style={style1}>
+    About?name=nasa
+  </NavLink>
+</li>
+```

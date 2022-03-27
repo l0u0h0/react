@@ -1,13 +1,29 @@
 import { NavLink, useLocation } from "react-router-dom";
 
-// let { location } = useLocation();
-// const obj = new URLSearchParams(location);
-
 export default function NavLinks() {
-  const search = useLocation();
-  console.log(search);
-  const obj = new URLSearchParams(search);
-  console.log(obj);
+  const search = useLocation().search;
+  const func1 = () => {
+    if (search === "") {
+      style = style2;
+      return console.log("hihi");
+    } else if (search === "?name=uhan") {
+      style1 = style2;
+      return console.log("name=uhan");
+    } else {
+      style = style1;
+    }
+  };
+  let style = ({ isActive }) => ({
+    color: isActive ? "blue" : "blue",
+  });
+  let style1 = ({ isActive }) => ({
+    color: isActive ? "blue" : "blue",
+  });
+  const style2 = ({ isActive }) => ({
+    color: isActive ? "green" : "blue",
+  });
+  func1();
+
   return (
     <ul>
       <li>
@@ -41,17 +57,12 @@ export default function NavLinks() {
         </NavLink>
       </li>
       <li>
-        <NavLink to="/About/" style={({ isActive, search }) => ({})}>
+        <NavLink to="About" style={style}>
           Abvout
         </NavLink>
       </li>
       <li>
-        <NavLink
-          to="/About?name=uhan/"
-          style={({ isActive }) => ({
-            color: isActive ? "green" : "blue",
-          })}
-        >
+        <NavLink to="About?name=uhan" style={style1}>
           About?name=uihan
         </NavLink>
       </li>
