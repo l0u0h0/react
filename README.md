@@ -933,3 +933,35 @@ export default function LoginButton() {
   return <button onClick={login}>로그인하기</button>;
 }
 ```
+
+### Redirect
+
+- js에서 렌더되면 지정된 경로로 redirect 됨.
+- v5 에서는
+
+```js
+// boolean data
+const isLogin = true;
+<Route
+  path="/Login"
+  render={() => (isLogin ? <Redirect to="/" /> : <Login />)}
+/>;
+```
+
+- 와 같이 사용했지만 v6에서 `Redirect` 컴포넌트가 없어지면서  
+  `element={<Navigate replace to="/" />}`  
+  와 같이 리다이렉트시켜줘야한다.
+- `render`로 사용하면 에러가 발생하기에
+
+```js
+const Redirect = () => {
+  if (isLogin) {
+    return <Navigate replce to="/" />;
+  } else {
+    return <Login />;
+  }
+};
+<Route path="/Login" element={Redirect()}>
+```
+
+- 와 같은 방식으로 사용해주었다.
