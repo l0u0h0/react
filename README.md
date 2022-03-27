@@ -876,3 +876,60 @@ func1();
   </NavLink>
 </li>
 ```
+
+### JS로 라우팅
+
+- `useNavigation()` 을 사용해 `useNavigation("/")` 와 같이  
+  해당 URL의 컴포넌트로 이동할 수 있다.
+- `App.js`
+
+```js
+function App() {
+  return (
+    <BrowserRouter>
+      <Links />
+      <NavLinks />
+      <Routes>
+        <Route path="/Login" element={<Login />} />
+        <Route path="/" element={<Home />} />
+        <Route path="Profile/" element={<Profile />}>
+          <Route path=":id" element={<Profile />} />
+        </Route>
+        <Route path="/About" element={<About />} />
+        <Route path="/*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+```
+
+- `Login.jsx`
+
+```js
+import LoginButton from "../component/LoginButton";
+
+export default function Login() {
+  return (
+    <div>
+      <h2>Login 페이지 입니다.</h2>
+      <LoginButton />
+    </div>
+  );
+}
+```
+
+- `LoginButton.jsx`
+
+```js
+import { useNavigate } from "react-router-dom";
+
+export default function LoginButton() {
+  let navigate = useNavigate();
+  function login() {
+    setTimeout(() => {
+      navigate("/");
+    }, 1000);
+  }
+  return <button onClick={login}>로그인하기</button>;
+}
+```
