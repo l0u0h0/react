@@ -965,3 +965,11 @@ const Redirect = () => {
 ```
 
 - 와 같은 방식으로 사용해주었다.
+
+---
+
+### Style Loaders
+
+- js, jsx 를 webpack이 babel-loader 를 사용해 컴파일
+- bable config가 어떤 문법을 번역할 지 설정해놓고 씀
+- 별개로 .css 와 같은 파일은 style-loader, css-loader 를 사용해 컴파일
