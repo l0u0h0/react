@@ -973,3 +973,19 @@ const Redirect = () => {
 - js, jsx 를 webpack이 babel-loader 를 사용해 컴파일
 - bable config가 어떤 문법을 번역할 지 설정해놓고 씀
 - 별개로 .css 와 같은 파일은 style-loader, css-loader 를 사용해 컴파일
+
+- css 파일을 import 할 때는 전역적으로 오염되지 않도록 하는 것이 중요
+- 기계적으로 자동화되는 부분이 아니기에 여러 규칙들이 존재
+- `css`의 경우는 위계를 줄 수 있다.
+- ### `BEM`
+- 스타일을 정의하는 여러 방법론 중 하나
+- 블럭 엘리먼트 모디파이어라는 영역으로 css 클래스의 이름을 정하는 방식
+  `.block` - block  
+  `.block-elem` - element  
+  `.block--hidden` - modifier
+- 이런 방식은 css에 익숙하고 css로 스타일링하는 데에 익숙한 팀들이 자주 사용
+  <br><br>
+
+- css를 하드하게 사용하다보면 느끼는 한계를 극복하기 위해 `scss` 등을 사용
+- `scss`를 사용하기 위해선
+- `npm i sass`로 `sass loader`를 설치해주어야한다.
