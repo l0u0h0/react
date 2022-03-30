@@ -989,3 +989,50 @@ const Redirect = () => {
 - css를 하드하게 사용하다보면 느끼는 한계를 극복하기 위해 `scss` 등을 사용
 - `scss`를 사용하기 위해선
 - `npm i sass`로 `sass loader`를 설치해주어야한다.
+
+### classnames
+
+- 컴포넌트의 className props를 쉽게 사용할 수 있는 라이브러리
+- `classnames`는 함수로 사용되며 여러 인자를 넣어 사용할 수 있다.
+- `className` 속성에서 여러 클래스를 다룰 때 클래스 사이를 한 칸 띄워야 하는데,  
+  이 떄 간단한 로직임에도 코드가 길어져 불편하기에 해당 라이브러리를 이용한다.
+- ex
+
+```js
+<button
+  onClick={this.startLoading}
+  className={
+    this.state.loading
+      ? `${styles["button"]} ${styles["loading"]}`
+      : styles["button"]
+  }
+  {...this.props}
+/>
+```
+
+=>
+
+```js
+<button
+  onClick={this.startLoading}
+  className={classNames("button", {
+    loading: this.state.loading,
+  })}
+  {...this.props}
+/>
+```
+
+- 근데 여기서 `loading` 친구가 module.css로 해쉬값이 생성된 클래스 이름을  
+  바로 가져와주지 못하기에
+- `classNames` 모듈을 가져올 때 `classnames/bind` 에서 가져와주고
+- `const cx = classNames.bind(styles);` 와 같이 bind 함수를 통해 가져와주면
+
+```js
+<button
+  onClick={this.startLoading}
+  className={cx("button", { loading: this.state.loading })}
+  {...this.props}
+/>
+```
+
+- 과 같이 실행했을 때 정상적으로 잘 작동되는 것을 확인할 수 있다.
