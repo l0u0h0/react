@@ -1133,3 +1133,86 @@ const UppercaseButton = (props) => (
 ```
 
 - `as` 를 사용해 생성한 컴포넌트 또한 사용할 수 있다. `{...props}`를 사용해주어야한다.
+
+```js
+const MyButton = (props) => (
+  <button className={props.className} children={`MyButton ${props.children}`} />
+);
+
+const StyledMyButton = styled(MyButton)`
+  background: transparent;
+  border-radius: 3px;
+  border: 2px solid palevioletred;
+  color: palevioletred;
+  margin: 0 1em;
+  padding: 0.25em 1em;
+  font-size: 20px;
+`;
+
+function App() {
+  return <StyledMyButton>button</StyledMyButton>;
+}
+
+export default App;
+```
+
+- `MyButton button`의 버튼이 생긴다. 일반적인 방법
+
+```js
+const StyledMyButton = styled(MyButton)`
+  background: transparent;
+  border-radius: 3px;
+  border: 2px solid ${(props) => props.color || "palevioletred"};
+  color: ${(props) => props.color || "palevioletred"};
+  margin: 0 1em;
+  padding: 0.25em 1em;
+  font-size: 20px;
+
+  :hover {
+    border: 2px solid red;
+  }
+
+  ::before {
+    content: "@";
+  }
+`;
+<StyledMyButton color="black">button</StyledMyButton>;
+```
+
+- props로 받아온 값을 이용해 설정해줄 수 있다.
+- `hover`, `before` 와 같은 설정도 해줄 수 있다.
+
+---
+
+- `styled-components` 라이브러리를 사용하면 스코프 오염,  
+  다른 스타일이 방해를 놓지 않을 수 있다는 장점이 있다.
+- 각각의 다른 컴포넌트 별로 스타일을 주다보니 전역 설정을 하기엔 어려운 부분이 있음.
+- 전역적으로 스타일을 지정해줄 때에는
+
+```js
+const GlobalStyle = createGlobalStyle`
+  button {
+    color: yellow;
+  }
+`;
+```
+
+- `createGlobalStyle` 내장함수를 사용해 전역적으로 스타일을 지정해줄 수 있다.
+- 이 때 전역적으로 적용될 수 있도록 렌더할 때 높은 위치에서 해당 컴포넌트를 선언해주어야한다.
+  <br><br>
+
+```js
+import styled from "styled-components";
+
+const StyledA = styled.a.attrs((props) => ({
+  target: "_BLANK",
+}))`
+  color: ${(props) => props.color};
+`;
+
+export default StyledA;
+```
+
+- 다음과 같이 `attrs()`를 사용해 props를 바로 사용할 수 있도록 할 수 있다.
+- 저 함수 안에 사용하고자 하는 애트리뷰트 등을 선언해주면 실제 컴포넌트 태그에서  
+  선언해주지 않았다 하더라도 적용이 되어 실행된다.
