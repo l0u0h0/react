@@ -1036,3 +1036,29 @@ const Redirect = () => {
 ```
 
 - 과 같이 실행했을 때 정상적으로 잘 작동되는 것을 확인할 수 있다.
+
+### Styled Components
+
+- `styled components, emotion`
+- `styled-components` 라이브러리를 설치하여 사용
+- ex
+
+```js
+import styled from "styled-components";
+
+const StyledButton = styled.button`
+  background: transparent;
+  border-radius: 3px;
+  border: 2px solid palevioletred;
+  color: palevioletred;
+  margin: 0 1em;
+  padding: 0.25em 1em;
+  font-size: 20px;
+`;
+
+export default StyledButton;
+```
+
+- `` 안에 스타일 코드를 작성해주면 스타일이 적용됨.
+- `` 안은 문자열이기에 css 문법에 맞지 않아도 오타가 나도 쉽사리 판단하기 힘들다.
+- 이러한 단점을 극복하기 위해 플러그인을 사용한다든가의 방법이 있다.
