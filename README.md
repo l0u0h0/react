@@ -1062,3 +1062,74 @@ export default StyledButton;
 - `` 안에 스타일 코드를 작성해주면 스타일이 적용됨.
 - `` 안은 문자열이기에 css 문법에 맞지 않아도 오타가 나도 쉽사리 판단하기 힘들다.
 - 이러한 단점을 극복하기 위해 플러그인을 사용한다든가의 방법이 있다.
+- 스타일을 적용하는 방법들
+- `component`에 props를 설정해주어 사용  
+  `<StyledButton>button</StyledButton>`  
+  `<StyledButton primary={true}>button</StyledButton>`
+
+```jsx
+// StyledButton.jsx
+
+import styled, { css } from "styled-components";
+
+const StyledButton = styled.button`
+  background: transparent;
+  border-radius: 3px;
+  border: 2px solid palevioletred;
+  color: palevioletred;
+  margin: 0 1em;
+  padding: 0.25em 1em;
+  font-size: 20px;
+
+  ${(props) =>
+    props.primary &&
+    css`
+      background: palevioletred;
+      color: white;
+    `}
+`;
+
+export default StyledButton;
+```
+
+- props에 들어온 값이 primary=true 일 경우에 해당 css 구문을 실행시키는 코드  
+  `<PrimaryStyledButton>버튼</PrimaryStyledButton>`
+
+```js
+// App.js
+
+import StyledButton from "./component/StyledButton";
+import styled from "styled-components";
+
+const PrimaryStyledButton = styled(StyledButton)`
+  background: palevioletred;
+  color: white;
+`;
+function App() {
+  return <PrimaryStyledButton>버튼</PrimaryStyledButton>;
+}
+
+export default App;
+```
+
+- 다음과 같이 `App.js` 에서 바로 스타일을 적용해줘서 props 없이 스타일을 지정
+
+```js
+<StyledButton as="a" href="/">
+  버튼
+</StyledButton>
+```
+
+- `as` 를 사용해 다른 태그처럼 사용할 수 있다.
+
+```js
+// App.js
+
+const UppercaseButton = (props) => (
+  <button {...props} children={props.children.toUpperCase()} />
+);
+
+<StyledButton as={UppercaseButton}>button</StyledButton>;
+```
+
+- `as` 를 사용해 생성한 컴포넌트 또한 사용할 수 있다. `{...props}`를 사용해주어야한다.
