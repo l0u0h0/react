@@ -1276,3 +1276,17 @@ export default StyledA;
 
 - offset 은 그만큼 띄운다는 의미, 컬럼에 사용
 - 이때에도 24를 맞춰주어야함
+
+---
+
+## HOC Higher Order Component
+
+- advaced technique in React for reusing component logic
+- not part of ther React API
+- a pattern that emerges from React's compositional nature
+- <strong> HOC는 컴포넌트를 인자로 받아 새로운 컴포넌트를 리턴하는 함수 </strong>
+- 로직을 재활용 하기에 좋은 함수
+- 주의할 점
+  - Don't Use HOCs Inside the render Method
+  - Static Methods Must Be Copied Over
+  - Refs Aren't Passed Through (feat. React.forwardRef)
