@@ -1238,3 +1238,41 @@ export default StyledA;
 - `import root from 'react-shadow'`로 root를 불러와  
   Shadow DOM으로 지정할 컴포넌트들을 root 컴포넌트로 감싸면  
   완성!
+
+### Ant Design
+
+- 디자인된 라이브러리, 쉽게 UI 구성 가능
+- [ant.design]('www.ant.design')
+- `npm i antd`
+- 설치한 후 ant-design의 css를 포함시키는 작업을 먼저 진행
+- css가 가장 최초에 들어가야함
+- index.js에 `import antd/dist/antd.css`
+- 전역적으로 불러와 사용할 수도 있고 선택적으로 모듈을 선택해 사용할 수도 있다.
+- 선택적으로 사용할 때 자동화하여 사용하는 방법도 있지만 eject를 해야한다.
+- 홈페이지에서 코드를 가져와 사용할 수 있음.
+- `npm i --save @ant-design/icons` 를 사용해 아이콘 패키지 설치 가능
+- ant-design 에서는 컬럼이 차지하는 스팬의 총 합이 24이기에 이를 맞춰주어야한다.
+- Row에 gutter를 줄 때는 16 + 8n 의 정수로만 지정해줄 수 있다.
+- gutter는 컬럼 사이에 gutter 만큼 띄운다는 의미
+- ex
+
+```js
+<Row gutter={16}>
+  <Col span={12} style={colStyle()} />
+  <Col span={12} style={colStyle()} />
+</Row>
+<Row gutter={16}>
+  <Col span={8} style={colStyle()} />
+  <Col span={8} style={colStyle()} />
+  <Col span={8} style={colStyle()} />
+</Row>
+<Row gutter={16}>
+  <Col span={6} style={colStyle()} />
+  <Col span={6} style={colStyle()} />
+  <Col span={6} style={colStyle()} />
+  <Col span={6} style={colStyle()} />
+</Row>
+```
+
+- offset 은 그만큼 띄운다는 의미, 컬럼에 사용
+- 이때에도 24를 맞춰주어야함
