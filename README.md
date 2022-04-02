@@ -1314,9 +1314,147 @@ export default StyledA;
 - [React_Hooks]('https://reactjs.org/docs/hooks-intro.html')
 - `useState` => react-hooks/src/example1,2,3
   - Functional Component != Stateless Component
+- state를 대체할 수 있다.
 - 컴포넌트 사이에서 상태와 관련된 로직을 재사용하기 어렵다.
   - 컨테이너 방식 말고, 상태와 관련된 로직
 - 복잡한 컴포넌트들은 이해하기 어렵다
 - class는 사람과 기계를 혼동시킨다.
   - 컴파일 단계에서 코드를 최적화하기 어렵게 만든다.
 - this.state는 로직에서 레퍼런스를 공유하기 때문에 문제가 발생할 수 있다.
+- class component에서 state 사용할 때
+
+```js
+import React, { Component } from "react";
+
+export default class Example1 extends Component {
+  state = {
+    count: 0,
+  };
+  render() {
+    const { count } = this.state;
+    return (
+      <div>
+        <p>You clicked {count} times</p>
+        <button onClick={this.click}>button</button>
+      </div>
+    );
+  }
+  click = () => {
+    this.setState({ count: this.state.count + 1 });
+  };
+}
+```
+
+- function component에서 state 사용할 때
+
+```js
+import React from "react";
+
+export default function Example2() {
+  const [count, setCount] = React.useState(0);
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={click}>button</button>
+    </div>
+  );
+  function click() {
+    setCount(count + 1);
+  }
+}
+```
+
+- `useState`에서 인자로 객체를 받을 수도 있다.
+
+```js
+import React from "react";
+
+export default function Example3() {
+  const [state, setState] = React.useState({ count: 0 });
+  return (
+    <div>
+      <p>You clicked {state.count} times</p>
+      <button onClick={click}>button</button>
+    </div>
+  );
+  function click() {
+    setState((state) => {
+      return {
+        count: state.count + 1,
+      };
+    });
+  }
+}
+```
+
+- `useEffect` => react-hooks/src/example4,5
+- 라이프 사이클 훅을 대체할 수 있다.
+  - componentDidMount
+  - componentDidUpdate
+  - componentWillUnmount
+- 대체할 수 있는거지 동등한 역할을 한다고 보기는 어렵다.
+- class component에서의 mount
+
+```js
+import React, { Component } from "react";
+
+export default class Example4 extends Component {
+  state = {
+    count: 0,
+  };
+  render() {
+    const { count } = this.state;
+    return (
+      <div>
+        <p>You clicked {count} times</p>
+        <button onClick={this.click}>button</button>
+      </div>
+    );
+  }
+
+  componentDidMount() {
+    console.log("componentDidMount", this.state.count);
+  }
+  componentDidUpdate() {
+    console.log("componentDidUpdate", this.state.count);
+  }
+  click = () => {
+    this.setState({ count: this.state.count + 1 });
+  };
+}
+```
+
+- `useEffect`를 사용한 function component에서의 mount 확인
+
+```js
+import React from "react";
+
+export default function Example5() {
+  const [count, setCount] = React.useState(0);
+
+  React.useEffect(() => {
+    console.log("componentDidMount", count);
+    return () => {
+      //clean up
+      // componentWillUnmount
+    };
+  }, []);
+  React.useEffect(() => {
+    console.log("componentDidMount & componentDidUpdate by count", count);
+    return () => {
+      // clean up
+      console.log("clean up by count", count);
+    };
+  }, [count]);
+
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={click}>button</button>
+    </div>
+  );
+  function click() {
+    setCount(count + 1);
+  }
+}
+```
