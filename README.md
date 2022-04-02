@@ -1216,3 +1216,25 @@ export default StyledA;
 - 다음과 같이 `attrs()`를 사용해 props를 바로 사용할 수 있도록 할 수 있다.
 - 저 함수 안에 사용하고자 하는 애트리뷰트 등을 선언해주면 실제 컴포넌트 태그에서  
   선언해주지 않았다 하더라도 적용이 되어 실행된다.
+
+## React Shadow
+
+- `웹 컴포넌트`
+- 앵글러 뷰와 마찬가지로 리액트도 컴포넌트 개념을 사용
+- `Shadow Dom`
+- HTML 안에 본래의 HTML에 영향을 주지 않는 별도의 DOM
+- 메인 DOM으로부터 독립적으로 렌더링되는 DOM
+- 엘리먼트의 기능을 프라이빗하게 유지할 수 있어,  
+  도큐먼트의 다른 부분과의 충돌에 대한 걱정 없이  
+  스크립트와 스타일을 작성할 수 있다.
+- `npm i react-shadow` 로 해당 라이브러리 설치 가능
+- `ERESOLVE unable to resolve dependency tree`
+- 해당 오류가 출력된다면
+- `npm i react-shadow --force`
+  - 로컬에 복제본이 존재하더라고 다시 다운로드
+- `npm i react-shadow --legacy-peer-deps`
+  - `peerDependencies`를 무시하고 다운로드
+- 와 같이 해결할 수 있다.
+- `import root from 'react-shadow'`로 root를 불러와  
+  Shadow DOM으로 지정할 컴포넌트들을 root 컴포넌트로 감싸면  
+  완성!
