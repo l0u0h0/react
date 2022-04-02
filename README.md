@@ -1298,3 +1298,25 @@ export default StyledA;
   - `Controlled`
 - 엘리먼트의 상태를 관리하지 않고, 엘리먼트의 참조만 컴포넌트가 소유
   - `Uncontrolled`
+
+## Hooks & Context
+
+- 1. basic Hooks
+- 2. Custom Hooks
+- 3. Additional Hooks
+- 4. React Router Hooks
+- 5. 컴포넌트 간 통신
+- 6. Context API
+
+### Basic Hooks
+
+- `useState`, `useEffect`, `useContext`
+- [React_Hooks]('https://reactjs.org/docs/hooks-intro.html')
+- `useState` => react-hooks/src/example1,2,3
+  - Functional Component != Stateless Component
+- 컴포넌트 사이에서 상태와 관련된 로직을 재사용하기 어렵다.
+  - 컨테이너 방식 말고, 상태와 관련된 로직
+- 복잡한 컴포넌트들은 이해하기 어렵다
+- class는 사람과 기계를 혼동시킨다.
+  - 컴파일 단계에서 코드를 최적화하기 어렵게 만든다.
+- this.state는 로직에서 레퍼런스를 공유하기 때문에 문제가 발생할 수 있다.
