@@ -1458,3 +1458,112 @@ export default function Example5() {
   }
 }
 ```
+
+### Custom Hooks
+
+- `useSomething`
+- 브라우저의 폭이 변경됐을 때 변경된 값을 받아오는 훅
+
+```js
+import { useState, useEffect } from "react";
+
+export default function useWindowWidth() {
+  const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const resize = () => {
+      setWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", resize);
+    return () => {
+      window.removeEventListener("resize", resize);
+    };
+  }, []);
+
+  return width;
+}
+```
+
+- `useHasMounted` vs `withHasMounted`
+- `withHasMounted`-> HOC
+
+```js
+// src/hocs/withHasMounted.jsx
+import React from "react";
+
+export default function withHasMounted(Component) {
+  class NewComponent extends React.Component {
+    state = {
+      hasMounted: false,
+    };
+    render() {
+      const { hasMounted } = this.state;
+      return <Component {...this.props} hasMounted={hasMounted} />;
+    }
+    componentDidMount() {
+      this.setState({ hasMounted: true });
+    }
+  }
+
+  NewComponent.displayName = `withHasMounted(${Component.name})`;
+
+  return NewComponent;
+}
+
+// App.js
+import logo from "./logo.svg";
+import "./App.css";
+import withHasMounted from "./hocs/withHasMounted";
+
+function App({ hasMounted }) {
+  console.log(hasMounted);
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+      </header>
+    </div>
+  );
+}
+
+export default withHasMounted(App);
+
+```
+
+- `useHasMounted` -> hooks
+
+```js
+// src/hooks/useHasMounted.js
+import { useEffect, useState } from "react";
+
+export default function useHasMounted() {
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+  return hasMounted;
+}
+
+// App.js
+import logo from "./logo.svg";
+import "./App.css";
+import withHasMounted from "./hocs/withHasMounted";
+import useHasMounted from "./hooks/useHasMounted";
+
+function App({ hasMounted }) {
+  const width = useWindowWidth();
+  const hasMountedFromHooks = useHasMounted();
+  console.log(hasMounted, hasMountedFromHooks);
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+      </header>
+    </div>
+  );
+}
+
+export default withHasMounted(App);
+
+```
