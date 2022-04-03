@@ -1774,7 +1774,7 @@ function E({ setValue }) {
 ```js
 // example.test.js
 // 파일명에 .test, .spec
-// dir 명에 __TEST__
+// dir 명에 __TESTS__
 
 describe("expect test", () => {
   it("37 to equal 37", () => {
@@ -1928,3 +1928,8 @@ describe('use async test', () => {
   });
 });
 ```
+
+### Component test
+
+- CRA 로 설치하면 라이브러리를 따로 설치할 필요없이 내장되어있음.
+- `@testing-library/react`
