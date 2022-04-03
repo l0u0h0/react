@@ -1576,3 +1576,132 @@ export default withHasMounted(App);
 - `useRouteMatch`
 - `useHistory`는 `react-router-dom` 6버전으로 오면서 삭제,  
   `useNavigate`로 변경
+
+### 컴포넌트 간 통신
+
+- 하위 컴포넌트 변경하기
+  - A 컴포넌트에서 버튼에 온클릭 이벤트를 만들고
+  - 버튼을 클릭하면 A 의 스테이트를 변경하여 B 컴포넌트로 내려주는 props 변경
+  - B의 props가 변경되면 C의 props에 전달
+  - C의 props가 변경되면 D의 props로 전달
+  - D의 props가 변경되면 E의 props로 전달
+
+```js
+import { useState } from "react";
+export default function A() {
+  const [value, setValue] = useState("아직 안바뀜");
+  return (
+    <div>
+      <B value={value} />
+      <button onClick={click}>E의 값 바꾸기</button>
+    </div>
+  );
+  function click() {
+    setValue("E 의 값을 변경");
+  }
+}
+
+function B({ value }) {
+  return (
+    <div>
+      <p>여긴 B</p>
+      <C value={value} />
+    </div>
+  );
+}
+
+function C({ value }) {
+  return (
+    <div>
+      <p>여긴 C</p>
+      <D value={value} />
+    </div>
+  );
+}
+
+function D({ value }) {
+  return (
+    <div>
+      <p>여긴 D</p>
+      <E value={value} />
+    </div>
+  );
+}
+
+function E({ value }) {
+  return (
+    <div>
+      <p>여긴 E</p>
+      <h3>{value}</h3>
+    </div>
+  );
+}
+```
+
+- 상위 컴포넌트 변경하기
+  - A 함수를 만들고, 그 함수 안에 state를 변경하도록 구현  
+    변경으로 인해 p 안의 내용을 변경,
+  - 만들어진 함수를 props에 넣어서 B에 전달
+  - B의 props의 함수를 C의 props로 전달
+  - C의 props의 함수를 D의 props로 전달
+  - D의 props의 함수를 E의 props로 전달,  
+    E에서 클릭하면 props로 받은 함수 실행
+
+```js
+import { useState } from "react";
+
+export default function A() {
+  const [value, setValue] = useState("아직 안바뀜");
+  return (
+    <div>
+      <p>{value}</p>
+      <B setValue={setValue} />
+    </div>
+  );
+}
+
+function B({ setValue }) {
+  return (
+    <div>
+      <p>여긴 B</p>
+      <C setValue={setValue} />
+    </div>
+  );
+}
+
+function C({ setValue }) {
+  return (
+    <div>
+      <p>여긴 C</p>
+      <D setValue={setValue} />
+    </div>
+  );
+}
+
+function D({ setValue }) {
+  return (
+    <div>
+      <p>여긴 D</p>
+      <E setValue={setValue} />
+    </div>
+  );
+}
+
+function E({ setValue }) {
+  return (
+    <div>
+      <p>여긴 E</p>
+      <button onClick={click}>click</button>
+    </div>
+  );
+  function click() {
+    setValue("A의 값을 변경");
+  }
+}
+```
+
+- 단순히 부모 자식 관계를 벗어나 사촌, 친척관계에서도 전달하는 때가 많다.
+- 그렇기에 props를 전달하는 방식에 주의를 잘 기울여야하고
+- 단순히 props를 전달하는 방식으로 애플리케이션의 전체 구조를 해결하기 어려줘졌다
+- 단순히 컴포넌트 하나 두 개로 연결 되어있는 것이 아니라 많은 컴포넌트간의 통신이 있기에
+- `contextAPI`로 극복해야한다.
