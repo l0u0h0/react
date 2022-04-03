@@ -1744,3 +1744,187 @@ function E({ setValue }) {
 
 1. useContext로 컨텍스트를 인자로 호출
 2. useContext의 리턴이 value
+
+### React Testing
+
+- Unit Test
+- 사람을 믿으시겠습니까? 테스트 코드를 믿으시겠습니까?
+  - 실제로는 사람이 아니라 사람의 감입니다.
+  - 코드는 거짓말을 하지 않습니다.
+- 통합테스트에 비해 빠르고 쉽습니다.
+- 통합테스트를 진행하기 전에 문제를 찾아낼 수 있습니다.
+  - 그렇다고, 통합테스트가 성공하리란 보장은 없습니다.
+- 테스트 코드가 살아있는(동작을 설명하는) 명세가 됩니다.
+  - 테스트를 읽고 어떻게 동작하는지도 예측 가능합니다.
+- SW 장인이 되려면 TDD 해야죠
+
+  - 선 코딩 후, (몰아서) 단위테스트가 아니라
+
+- `JEST` 테스팅 프레임워크
+- [JEST]('https://jestjs.io')
+- 리액트 컴포넌트를 테스트 하기 위해서 많이 쓰임
+- facebook/jest
+- 리액트의 영향이 크겠지만 가장 핫한 테스트 도구
+- Easy Setup
+- instant feedback
+  - 고친 파일만 빠르게 테스트 다시 해주는 기능 등
+- Snapshot Testing
+  - 컴포넌트 테스트에 중요한 역할을 하는 스냅샷
+
+```js
+// example.test.js
+// 파일명에 .test, .spec
+// dir 명에 __TEST__
+
+describe("expect test", () => {
+  it("37 to equal 37", () => {
+    expect(37).toBe(37);
+    // 1 + 2 = 3 이여야 한다. 라는 뜻
+  });
+  it("{age: 39} to equal {age: 39}", () => {
+    expect({ age: 39 }).toEqual({ age: 39 });
+    // 1 + 2 = 3 이여야 한다. 라는 뜻
+  });
+  it(".toHaveLength", () => {
+    expect("hello").toHaveLength(5);
+  });
+  it(".toHaveProperty", () => {
+    expect({ name: "lee" }).toHaveProperty("name");
+    expect({ name: "lee" }).toHaveProperty("name", "lee");
+  });
+  it(".toBeDefined", () => {
+    expect({ name: "lee" }.name).toBeDefined();
+    expect({ name: "lee" }.age).toBeDefined();
+  });
+  it(".toBeFalsy", () => {
+    expect(0).toBeFalsy();
+    expect(false).toBeFalsy();
+    expect("").toBeFalsy();
+    expect(null).toBeFalsy();
+    expect(undefined).toBeFalsy();
+    expect(NaN).toBeFalsy();
+  });
+  it(".toBeGreaterThan", () => {
+    expect(10).toBeGreaterThan(9);
+  });
+  it(".toBeGreaterThanOrEqual", () => {
+    expect(10).toBeGreaterThanOrEqual(10);
+  });
+  it(".toBeInstanceOf", () => {
+    class test {}
+    expect(new test()).toBeInstanceOf(test);
+    // error를 쓰로우 한 뒤 정말 에러인지 자식인지
+  });
+});
+```
+
+- 의도에 따라 `.not.to~`와 같이 사용할 수 있다.
+- 비동기적인 로직에 대한 테스트  
+  `async test with done callback`
+
+```js
+describe("use async test", () => {
+  it("setTimeout without done", () => {
+    setTImeout(() => {
+      expect(37).toBe(36);
+    }, 1000);
+  });
+  it("setTimeout with done", (done) => {
+    setTimeout(() => {
+      expect(37).toBe(36);
+      done();
+    }, 1000);
+  });
+});
+```
+
+`async test with promise`
+
+```js
+// choice 1
+describe("use async test", () => {
+  it("promise then", () => {
+    function p() {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(37);
+        }, 1000);
+      });
+    }
+    return p().then((data) => expect(data).toBe(37));
+  });
+  it("promise catch", () => {
+    function p() {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          reject(new Error("error"));
+        }, 1000);
+      });
+    }
+    return p().catch((e) => expect(e).toBeInstanceOf(Error));
+  });
+});
+
+// choice 2
+describe("use async test", () => {
+  it("promise .resolves", () => {
+    function p() {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(37);
+        }, 1000);
+      });
+    }
+    return expect(p()).resolves.toBe(37);
+  });
+  it("promise .rejects", () => {
+    function p() {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          reject(new Error("error"));
+        }, 1000);
+      });
+    }
+    return expect(p()).rejects.toBeInstanceOf(Error);
+  });
+});
+```
+
+`async test with async-await`
+
+- `await`로 막고 데이터를 얻어내 쉽게 사용할 수 있다.
+
+```js
+// 1
+describe('use async test', () => {
+  it('async-await', async () => {
+    function p() {
+      return new Promise(resolve => {
+        setTimeout(() => {
+          resolve(37);
+        }, 1000);
+      });
+    }
+    const data = await p();
+    return expect(data).toBe(37);
+  });
+});
+
+// 2
+describe('use async test', () => {
+  it('async-await, catch', async () => {
+    function p() {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          reject(new Error('error'));
+        }, 1000);
+      })'
+    }
+    try {
+      await p();
+    } catch (error) {
+      expect(error).toBeInstanceOf(Error);
+    }
+  });
+});
+```
