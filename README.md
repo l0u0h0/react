@@ -1567,3 +1567,12 @@ function App({ hasMounted }) {
 export default withHasMounted(App);
 
 ```
+
+### React Router Hooks
+
+- `useHistory`
+- `useLocation`
+- `useParamas`
+- `useRouteMatch`
+- `useHistory`는 `react-router-dom` 6버전으로 오면서 삭제,  
+  `useNavigate`로 변경
