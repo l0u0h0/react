@@ -1933,3 +1933,94 @@ describe('use async test', () => {
 
 - CRA 로 설치하면 라이브러리를 따로 설치할 필요없이 내장되어있음.
 - `@testing-library/react`
+
+---
+
+## React Advanced
+
+- 1. Optimizing Performance
+- 2. React.createPortal
+- 3. React.forwardRef
+
+### Optimizing Performance
+
+- 필요할 때만 랜더한다.
+- Reconciliation
+- 랜더 전후의 일치 여부를 판단하는 규칙
+- 서로 다른 타입의 두 엘리먼트는 서로 다른 트리를 만들어낸다.
+- 개발자가 key prop을 통해, 여러 랜더링 사이에 어떤 자식 엘리먼트가  
+  변경되지 않아야 할지 표시해 줄 수 있다.
+
+```js
+class App extends React.Component {
+  state = {
+    count: 0,
+  };
+  componentDidMount() {
+    setInterval(() => {
+      this.setState({ count: this.state.count + 1 });
+    }, 1000);
+  }
+  render() {
+    if (this.state.count % 2 === 0) {
+      return (
+        <div>
+          <Foo />
+        </div>
+      );
+    }
+    return (
+      <span>
+        <Foo />
+      </span>
+    );
+  }
+}
+```
+
+- 다른 타입의 엘리먼트로 감싸져 있으면 다른 것이라 규정해버린다.
+- 정말 같은 것이라면 타입 또한 같게 해줘야한다.
+
+```js
+import logo from "./logo.svg";
+import "./App.css";
+import React from "react";
+
+class Foo extends React.Component {
+  componentDidMount() {
+    console.log("Foo componentDidMount");
+  }
+  componentWillUnmount() {
+    console.log("Foo componentWillUnmount");
+  }
+  static getDerivedStateFromProps(nextProps, prevProps) {
+    console.log("Foo getDerivedStateFromProps", nextProps, prevProps);
+    return {};
+  }
+  render() {
+    console.log("Foo render");
+    return <p>Foo</p>;
+  }
+}
+
+class App extends React.Component {
+  state = {
+    count: 0,
+  };
+  componentDidMount() {
+    setInterval(() => {
+      this.setState({ count: this.state.count + 1 });
+    }, 1000);
+  }
+  render() {
+    if (this.state.count % 2 === 0) {
+      return <Foo name="lee" />;
+    }
+    return <Foo name="jiwo" />;
+  }
+}
+
+export default App;
+```
+
+- if문에 따라 번갈아가며 랜더가 반복되는 상황
