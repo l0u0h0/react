@@ -1,38 +1,42 @@
-import logo from "./logo.svg";
 import "./App.css";
 import React from "react";
 
-class Foo extends React.Component {
-  componentDidMount() {
-    console.log("Foo componentDidMount");
-  }
-  componentWillUnmount() {
-    console.log("Foo componentWillUnmount");
-  }
-  static getDerivedStateFromProps(nextProps, prevProps) {
-    console.log("Foo getDerivedStateFromProps", nextProps, prevProps);
-    return {};
-  }
-  render() {
-    console.log("Foo render");
-    return <p>Foo</p>;
-  }
-}
+const Person = React.memo(({ name, age }) => {
+  console.log("Person render");
+  return (
+    <div>
+      {name} / {age}
+    </div>
+  );
+});
 
-class App extends React.Component {
-  state = {
-    count: 0,
-  };
-  componentDidMount() {
-    setInterval(() => {
-      this.setState({ count: this.state.count + 1 });
-    }, 1000);
-  }
-  render() {
-    if (this.state.count % 2 === 0) {
-      return <Foo name="lee" />;
-    }
-    return <Foo name="jiwo" />;
+function App() {
+  const [state, setState] = React.useState({
+    text: "",
+    persons: [
+      { id: 1, name: "lee", age: 25 },
+      { id: 2, name: "jiwoo", age: 21 },
+    ],
+  });
+  const toPersonClick = React.useCallback(() => {}, []);
+
+  const { text, persons } = state;
+  return (
+    <div>
+      <input type="text" value={text} onChange={change} />
+      <ul>
+        {persons.map((person) => {
+          return <Person {...person} key={person.id} onClick={toPersonClick} />;
+        })}
+      </ul>
+    </div>
+  );
+
+  function change(e) {
+    setState({
+      ...state,
+      text: e.target.value,
+    });
   }
 }
 

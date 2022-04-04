@@ -2024,3 +2024,163 @@ export default App;
 ```
 
 - if문에 따라 번갈아가며 랜더가 반복되는 상황
+- 같은 타입의 엘리먼트는 어트리뷰트를 업데이트
+- 같은 타입의 컴포넌트는 언마운트 마운트가 아니라 업데이트
+
+- `shouldComponentUpdate`를 통해 랜더를 잠시 멈춰줄 수 있다.
+
+```js
+import "./App.css";
+import React from "react";
+
+class Person extends React.Component {
+  shouldComponentUpdate(previousProps) {
+    for (const key in this.props) {
+      if (previousProps[key] !== this.props[key]) {
+        return true;
+      }
+    }
+    return false;
+  }
+  render() {
+    console.log("Person render");
+    const { name, age } = this.props;
+    return (
+      <div>
+        {name} / {age}
+      </div>
+    );
+  }
+}
+
+class App extends React.Component {
+  state = {
+    text: "",
+    persons: [
+      { id: 1, name: "lee", age: 25 },
+      { id: 2, name: "jiwoo", age: 21 },
+    ],
+  };
+  render() {
+    const { text, persons } = this.state;
+    return (
+      <div>
+        <input type="text" value={text} onChange={this._change} />
+        <ul>
+          {persons.map((person) => {
+            return <Person {...person} key={person.id} />;
+          })}
+        </ul>
+      </div>
+    );
+  }
+  _change = (e) => {
+    this.setState({
+      ...this.state,
+      text: e.target.value,
+    });
+  };
+}
+
+export default App;
+```
+
+- 이 외의 방법으로 해당 로직으로 제공되는 리액트의 컴포넌트가 있다.
+
+```js
+import "./App.css";
+import React from "react";
+
+class Person extends React.PureComponent {
+  render() {
+    console.log("Person render");
+    const { name, age } = this.props;
+    return (
+      <div>
+        {name} / {age}
+      </div>
+    );
+  }
+}
+
+class App extends React.Component {
+  state = {
+    text: "",
+    persons: [
+      { id: 1, name: "lee", age: 25 },
+      { id: 2, name: "jiwoo", age: 21 },
+    ],
+  };
+  render() {
+    const { text, persons } = this.state;
+    return (
+      <div>
+        <input type="text" value={text} onChange={this._change} />
+        <ul>
+          {persons.map((person) => {
+            return <Person {...person} key={person.id} />;
+          })}
+        </ul>
+      </div>
+    );
+  }
+  _change = (e) => {
+    this.setState({
+      ...this.state,
+      text: e.target.value,
+    });
+  };
+}
+
+export default App;
+```
+
+- 다음과 같이 `React.Component` 가 아닌 `React.PureComponent` 를 상속받으면 된다.
+  <br>
+- 함수 컴포넌트에서는 다음과 같이 사용할 수 있다.
+
+```js
+import "./App.css";
+import React from "react";
+
+const Person = React.memo(({ name, age }) => {
+  console.log("Person render");
+  return (
+    <div>
+      {name} / {age}
+    </div>
+  );
+});
+
+function App() {
+  const [state, setState] = React.useState({
+    text: "",
+    persons: [
+      { id: 1, name: "lee", age: 25 },
+      { id: 2, name: "jiwoo", age: 21 },
+    ],
+  });
+  const toPersonClick = React.useCallback(() => {}, []);
+
+  const { text, persons } = state;
+  return (
+    <div>
+      <input type="text" value={text} onChange={change} />
+      <ul>
+        {persons.map((person) => {
+          return <Person {...person} key={person.id} onClick={toPersonClick} />;
+        })}
+      </ul>
+    </div>
+  );
+
+  function change(e) {
+    setState({
+      ...state,
+      text: e.target.value,
+    });
+  }
+}
+
+export default App;
+```
