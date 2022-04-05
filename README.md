@@ -2184,3 +2184,59 @@ function App() {
 
 export default App;
 ```
+
+### React.createPortal
+
+- Portal은 부모 컴포넌트의 돔 계층 구조 바깥에 있는 돔 노드로 자식을  
+  랜더링 하는 최고의 방법을 제공한다.
+
+```js
+// public/index.html에 id="modal" 인 div 만들어주고
+// App.js
+import "./App.css";
+import React from "react";
+import Modal from "./Components/Modal";
+
+function App() {
+  const [visible, setVisibal] = React.useState(false);
+  const open = () => {
+    setVisibal(true);
+  };
+  const close = () => {
+    setVisibal(false);
+  };
+  return (
+    <div>
+      <button onClick={open}>open</button>
+      {visible && (
+        <Modal>
+          <div
+            style={{
+              width: "100vw",
+              height: "100vh",
+              background: "rgba(0, 0, 0, 0.5)",
+            }}
+            onClick={close}
+          >
+            Hello
+          </div>
+        </Modal>
+      )}
+    </div>
+  );
+}
+
+export default App;
+
+// Components/Modal.jsx
+import ReactDOM from "react-dom";
+
+const Modal = ({ children }) =>
+  ReactDOM.createPortal(children, document.querySelector("#modal"));
+
+export default Modal;
+
+```
+
+- `createPortal`을 이용해 Modal 컴포넌트로 받아온 children을 아이디가 modal인 요소에  
+  생성해주는 코드
