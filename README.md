@@ -2240,3 +2240,47 @@ export default Modal;
 
 - `createPortal`을 이용해 Modal 컴포넌트로 받아온 children을 아이디가 modal인 요소에  
   생성해주는 코드
+
+### React.forwardRef
+
+- 하위 컴포넌트의 래퍼런스를 상위 컴포넌트에서 이용
+
+```js
+// App.js
+import "./App.css";
+import React from "react";
+import Myinput from "./Components/Myinput";
+
+function App() {
+  // Myinput 컴포넌트에서 생성된 래퍼런스
+  const myInputRef = React.useRef();
+  // Myinput 컴포넌트에서 생성된 래퍼런스의 밸류 값
+  const click = () => {
+    console.log(myInputRef.current.value);
+  };
+
+  return (
+    <div>
+      <Myinput ref={myInputRef} />
+      <button onClick={click}>send</button>
+    </div>
+  );
+}
+
+export default App;
+
+// Components/Myinput.jsx
+import React from "react";
+// React.forwardRef() 함수 안에 컴포넌트를 넣어 생성
+// 함수형 컴포넌트의 인자로 props, ref를 받아 사용
+export default React.forwardRef(function Myinput(props, ref) {
+  return (
+    <div>
+      <p>Input</p>
+      <input ref={ref} />
+    </div>
+  );
+});
+
+
+```

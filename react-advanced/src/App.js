@@ -1,6 +1,7 @@
 import "./App.css";
 import React from "react";
 import Modal from "./Components/Modal";
+import Myinput from "./Components/Myinput";
 
 // const Person = React.memo(({ name, age }) => {
 //   console.log("Person render");
@@ -41,31 +42,44 @@ import Modal from "./Components/Modal";
 //   }
 // }
 
+// function App() {
+//   const [visible, setVisibal] = React.useState(false);
+//   const open = () => {
+//     setVisibal(true);
+//   };
+//   const close = () => {
+//     setVisibal(false);
+//   };
+//   return (
+//     <div>
+//       <button onClick={open}>open</button>
+//       {visible && (
+//         <Modal>
+//           <div
+//             style={{
+//               width: "100vw",
+//               height: "100vh",
+//               background: "rgba(0, 0, 0, 0.5)",
+//             }}
+//             onClick={close}
+//           >
+//             Hello
+//           </div>
+//         </Modal>
+//       )}
+//     </div>
+//   );
+// }
+
 function App() {
-  const [visible, setVisibal] = React.useState(false);
-  const open = () => {
-    setVisibal(true);
-  };
-  const close = () => {
-    setVisibal(false);
+  const myInputRef = React.useRef();
+  const click = () => {
+    console.log(myInputRef.current.value);
   };
   return (
     <div>
-      <button onClick={open}>open</button>
-      {visible && (
-        <Modal>
-          <div
-            style={{
-              width: "100vw",
-              height: "100vh",
-              background: "rgba(0, 0, 0, 0.5)",
-            }}
-            onClick={close}
-          >
-            Hello
-          </div>
-        </Modal>
-      )}
+      <Myinput ref={myInputRef} />
+      <button onClick={click}>send</button>
     </div>
   );
 }
