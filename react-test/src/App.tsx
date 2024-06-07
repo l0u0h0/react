@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
-import HooksComponent from "./components/HooksComponent";
+import HooksComponent from "./components/hook/HooksComponent";
 
 const TEST_STATE = ["hooks"];
 
@@ -17,16 +17,20 @@ function App() {
   const [titleFocus, setTitleFocus] = useState(0);
 
   return (
-    <div className="App">
-      <div>
+    <main className="bg-primary flex flex-col gap-12 p-48">
+      <div className="w-full">
         {TEST_STATE.map((e, i) => (
-          <button onClick={() => setTitleFocus(i)} key={`table_title_${i}`}>
+          <button
+            className="btn-project"
+            onClick={() => setTitleFocus(i)}
+            key={`table_title_${i}`}
+          >
             {e}
           </button>
         ))}
       </div>
       <div>{FocusComponent(titleFocus)}</div>
-    </div>
+    </main>
   );
 }
 
